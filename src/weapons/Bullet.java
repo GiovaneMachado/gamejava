@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gamejava;
-import gamejava.Direcao;
+package weapons;
+import ship.Invader;
+import spacejava.Direction;
 import java.awt.*;
 import javax.swing.ImageIcon;
 
@@ -17,7 +18,7 @@ public class Bullet {
     // Posição do tiro em pixels.
     private int x,y;
      // Direção do tiro.
-    private Direcao direção;
+    private Direction direção;
     // Este tiro está ativo?
     private boolean estáAtivo;
     // Tamanho do tiro em pixels.
@@ -28,9 +29,9 @@ public class Bullet {
     private Dimension area;
  
     // Construtor, inicializa atributos, cria a bala.
-    public Bullet(Dimension a, Direcao dir, int x,int y){
+    public Bullet(Dimension a, Direction dir, int x,int y){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/gamejava/Sprites/bullet.png")).getImage();
+        icon = new ImageIcon(getClass().getResource("/sprites/bullet.png")).getImage();
         iw = icon.getWidth(null);
         ih = icon.getHeight(null);
         // x e y passados direto como argumentos
@@ -46,19 +47,27 @@ public class Bullet {
         switch(direção){
             case LEFT:
                 {
-                    x -= 3; if (x < 0) estáAtivo = false; break;
+                    x -= 3;
+                    if (x < 0) estáAtivo = false;
+                    break;
                 }
             case RIGHT:
                 {
-                    x += 3; if (x > area.width) estáAtivo = false; break;
+                    x += 3;
+                    if (x > area.width) estáAtivo = false;
+                    break;
                 }
             case UP:
                 {
-                    y -= 3; if (y < 0) estáAtivo = false; break;
+                    y -= 3;
+                    if (y < 0) estáAtivo = false;
+                    break;
                 }
             case DOWN:
                 {
-                    y += 3; if (y > area.height-100) estáAtivo = false; break;
+                    y += 3;
+                    if (y > area.height-100) estáAtivo = false;
+                    break;
                 }
         } 
     }
@@ -69,7 +78,9 @@ public class Bullet {
     }
  
     // Precisamos saber se esta bala está ativa!
-    public boolean estáAtivo() { return estáAtivo; }
+    public boolean estáAtivo(){ 
+        return estáAtivo; 
+    }
     // Verificamos se a bala está perto de um Invader
     public boolean acertouEm(Invader i){
         int ox = i.getX(); 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gamejava;
+package ship;
 
 import java.awt.*;
 import javax.swing.ImageIcon;
@@ -27,9 +27,9 @@ public class Invader {
     // Construtor, inicializa atributos e posiciona o UFO.
     public Invader(Dimension a){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/gamejava/Sprites/naveinimiga.png")).getImage();
-        iw = icon.getWidth(null);
-        ih = icon.getHeight(null);
+        icon = new ImageIcon(getClass().getResource("/sprites/naveinimiga.png")).getImage();
+        iw = (int) 150;
+        ih = (int) 215;
         // x e y calculados usando a área do jogo.
         x = (int)(iw/2+Math.random()*(a.width-iw));
         y = (int)(ih/2+Math.random()*(a.height-100-ih));
@@ -46,10 +46,20 @@ public class Invader {
         if(estáAtivo){
             x += dx;
             y += dy;
-            if (x < iw/2) { dx = -dx; x += dx; }
-            if (y < ih/2) { dy = -dy; y += dy; }
-            if (x > area.width-iw/2) { dx = -dx; x += dx; }
-            if (y > area.height-100-ih/2) { dy = -dy; y += dy; }
+           
+            if (x < iw/2){ 
+                dx = -dx; x += dx; 
+            }
+            if (y < ih/2){
+                dy = -dy; y += dy; 
+            }
+            if (x > area.width-iw/2){
+                dx = -dx; x += dx; 
+            }
+            if (y > area.height-ih/2){ 
+                dy = -dy; y += dy; 
+            }
+            
         }
     }
 
@@ -61,7 +71,13 @@ public class Invader {
     public void desativa(){
         estáAtivo = false;
     }
-    public boolean estáAtivo() { return estáAtivo; }
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public boolean estáAtivo(){ 
+        return estáAtivo; 
+    }
+    public int getX(){ 
+        return x; 
+    }
+    public int getY(){ 
+        return y; 
+    }
 }

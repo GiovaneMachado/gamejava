@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gamejava;
+package spacejava;
+import weapons.Bullet;
+import weapons.Bomb;
+import ship.Invader;
+import ship.Shooter;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -28,7 +32,7 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
     private static final int NUM_INVASORES = 10;
     // O shooter e sua direção de movimento.
     private Shooter shooter;
-    private Direcao dir;
+    private Direction dir;
     // Um conjunto de tiros.
     private ArrayList<Bullet> tiros;
     private static final int MAX_TIROS = 3;
@@ -45,11 +49,11 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
         addKeyListener(this);
         invasores = new ArrayList<Invader>(NUM_INVASORES);
         for(int i=0;i<NUM_INVASORES;i++)
-        invasores.add(new Invader(this.getPreferredSize()));
-        shooter = new Shooter(this.getPreferredSize());
-        tiros = new ArrayList<Bullet>(MAX_TIROS);
-        bomba = null;
-        numBombas = NUM_BOMBAS_DISPONIVEL;
+            invasores.add(new Invader(this.getPreferredSize()));
+            shooter = new Shooter(this.getPreferredSize());
+            tiros = new ArrayList<Bullet>(MAX_TIROS);
+            bomba = null;
+            numBombas = NUM_BOMBAS_DISPONIVEL;
     }
     // Avisa que agora temos a interface em um container parente.
     public void addNotify(){
@@ -109,7 +113,7 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
     // Desenhamos o componente (e seus elementos)
     protected synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Image background = new ImageIcon(getClass().getResource("/gamejava/Sprites/background.png")).getImage();
+        Image background = new ImageIcon(getClass().getResource("/sprites/background.png")).getImage();
         g.drawImage(background, 0, 0, this);
         for(Invader i:invasores) i.draw(g);
         shooter.draw(g);
@@ -125,13 +129,13 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_P) isPaused = !isPaused;
         if (isPaused) return;
-        if (keyCode == KeyEvent.VK_LEFT) dir = Direcao.LEFT;
-        else if (keyCode == KeyEvent.VK_RIGHT) dir = Direcao.RIGHT;
-        else if (keyCode == KeyEvent.VK_UP) dir = Direcao.UP;
-        else if (keyCode == KeyEvent.VK_DOWN) dir = Direcao.DOWN;
+        if (keyCode == KeyEvent.VK_LEFT) dir = Direction.LEFT;
+        else if (keyCode == KeyEvent.VK_RIGHT) dir = Direction.RIGHT;
+        else if (keyCode == KeyEvent.VK_UP) dir = Direction.UP;
+        else if (keyCode == KeyEvent.VK_DOWN) dir = Direction.DOWN;
         else if (keyCode == KeyEvent.VK_SPACE){
             if (tiros.size() < MAX_TIROS){
-                tiros.add(new Bullet(getPreferredSize(), Direcao.UP, shooter.getX(),shooter.getY()-shooter.getHeight()/2));
+                tiros.add(new Bullet(getPreferredSize(), Direction.UP, shooter.getX(),shooter.getY()-shooter.getHeight()/2));
             }
         }
         else if (keyCode == KeyEvent.VK_B){

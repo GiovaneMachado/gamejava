@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gamejava;
-import gamejava.Direcao;
+package weapons;
+import ship.Invader;
+import spacejava.Direction;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -32,7 +33,7 @@ public class Bomb {
     
     public Bomb(Dimension a,int x,int y){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/gamejava/Sprites/bomb.png")).getImage();
+        icon = new ImageIcon(getClass().getResource("/sprites/bomb.png")).getImage();
         iw = icon.getWidth(null);
         ih = icon.getHeight(null);
         // x e y passadas diretamente como parâmetros
@@ -42,7 +43,7 @@ public class Bomb {
     }
     
     // Método que movimenta o shooter, verificando se está na área válida.
-    public void move(Direcao dir){
+    public void move(Direction dir){
         if (dir == null) return;
         switch(dir){
             case LEFT:
@@ -73,17 +74,18 @@ public class Bomb {
     }
     // Verificamos se a bomba está perto de um Invader
     public boolean acertouEm(Invader i){
-        int ox = i.getX(); int oy = i.getY();
+        int ox = i.getX(); 
+        int oy = i.getY();
         return (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 25);
     }
 
     // Explodimos a bomba (retornando bullets).
     public ArrayList<Bullet> explode(){
         ArrayList<Bullet> novasBalas = new ArrayList<Bullet>(4);
-        novasBalas.add(new Bullet(area, Direcao.LEFT, x, y));
-        novasBalas.add(new Bullet(area, Direcao.RIGHT, x, y));
-        novasBalas.add(new Bullet(area, Direcao.UP, x, y));
-        novasBalas.add(new Bullet(area, Direcao.DOWN, x, y));
+        novasBalas.add(new Bullet(area, Direction.LEFT, x, y));
+        novasBalas.add(new Bullet(area, Direction.RIGHT, x, y));
+        novasBalas.add(new Bullet(area, Direction.UP, x, y));
+        novasBalas.add(new Bullet(area, Direction.DOWN, x, y));
         estáAtivo = false;
         return novasBalas;
     }
