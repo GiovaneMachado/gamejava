@@ -27,7 +27,7 @@ public class Shooter {
      // Construtor, inicializa atributos e posiciona o shooter.
     public Shooter(Dimension a){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/Sprites/nave.png")).getImage();
+        icon = new ImageIcon(getClass().getResource("/gamejava/Sprites/nave.png")).getImage();
         iw = icon.getWidth(null);
         ih = icon.getHeight(null);
         // x e y iniciais centrados na área de movimentação.
@@ -35,18 +35,30 @@ public class Shooter {
         y = (int)(a.height-100+ih/2);
     }
     
-    // Método que movimenta o shooter, verificando se está na área válida.
+    // Método que movimenta o shooter, verificando se está na área válida (pro shooter)
     public void move(Direcao dir){
         if (dir == null) return;
         switch(dir){
             case LEFT:
-                { x--; if (x < iw/2) x = iw/2; break; }
+                { 
+                    x--; if (x < iw/2) x = iw/2; 
+                    break; 
+                }
             case RIGHT:
-                { x++; if (x > area.width-iw/2) x = area.width-iw/2; break; }
+                { 
+                    x++; if (x > area.width-iw/2) x = area.width-iw/2; 
+                    break; 
+                }
             case UP:
-                { y--; if (y < area.height-100+ih/2) y = area.height-100+ih/2; break; }
+                { 
+                    y--; if (y < area.height-100+ih/2) y = area.height-100+ih/2; 
+                    break; 
+                }
             case DOWN:
-                { y++; if (y > area.height-ih/2) y = area.height-ih/2; break; }
+                { 
+                    y++; if (y > area.height-ih/2) y = area.height-ih/2; 
+                    break; 
+                }
         }
     }
     

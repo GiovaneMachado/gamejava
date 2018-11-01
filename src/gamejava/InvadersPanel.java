@@ -7,6 +7,7 @@ package gamejava;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -17,29 +18,27 @@ import javax.swing.JPanel;
 // do jogo e a renderização.
 public class InvadersPanel extends JPanel implements Runnable, KeyListener {
     // Dimensões da área do jogo.
-    private static final int largura = 800;
-    private static final int altura = 600; 
+    private static final int largura = 1000;
+    private static final int altura = 800; 
     // Uma thread para controlar a animação.
     private Thread animator;
     private boolean isPaused = false;
     // Teremos alguns UFOs passeando na tela.
-     // Teremos alguns UFOs passeando na tela.
     private ArrayList<Invader> invasores;
-    private static final int NUM_INVASORES = 20;
+    private static final int NUM_INVASORES = 10;
     // O shooter e sua direção de movimento.
     private Shooter shooter;
     private Direcao dir;
     // Um conjunto de tiros.
     private ArrayList<Bullet> tiros;
-    private static final int MAX_TIROS = 5;
+    private static final int MAX_TIROS = 3;
     // Uma única bomba.
     private Bomb bomba;
     private int numBombas;
-    private static final int NUM_BOMBAS_DISPONIVEL = 10;
+    private static final int NUM_BOMBAS_DISPONIVEL = 3;
 
     // Construtor, inicializa estruturas, registra interfaces, etc.
     public InvadersPanel(){
-        setBackground(Color.WHITE);
         setPreferredSize(new Dimension(largura,altura));
         setFocusable(true);
         requestFocus();
@@ -84,10 +83,14 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
             if (bomba != null) bomba.move();
             // Temos balas desativadas?
             Iterator<Bullet> it = tiros.iterator();
-            while (it.hasNext()) { if (!(it.next()).estáAtivo()) it.remove(); }
+            while (it.hasNext()){
+                if (!(it.next()).estáAtivo()) it.remove(); 
+            }
             // Temos invasores desativados?
             Iterator<Invader> ii = invasores.iterator();
-            while (ii.hasNext()) { if (!(ii.next()).estáAtivo()) ii.remove(); }
+            while (ii.hasNext()){
+                if (!(ii.next()).estáAtivo()) ii.remove(); 
+            }
             // A bomba está desativada?
             if (bomba != null) if (!bomba.estáAtivo()) bomba = null;
             // Temos colisões com balas?
@@ -97,13 +100,17 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
             // Temos colisões com bombas?
             if (bomba != null)
             for(Invader i:invasores)
-            if (bomba.acertouEm(i)) { tiros.addAll(bomba.explode()); i.desativa(); }
+            if (bomba.acertouEm(i)){ 
+                tiros.addAll(bomba.explode()); i.desativa(); 
+            }
         }
     }
  
     // Desenhamos o componente (e seus elementos)
     protected synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Image background = new ImageIcon(getClass().getResource("/gamejava/Sprites/background.png")).getImage();
+        g.drawImage(background, 0, 0, this);
         for(Invader i:invasores) i.draw(g);
         shooter.draw(g);
         for(Bullet b:tiros) b.draw(g);

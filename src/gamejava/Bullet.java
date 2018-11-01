@@ -30,7 +30,7 @@ public class Bullet {
     // Construtor, inicializa atributos, cria a bala.
     public Bullet(Dimension a, Direcao dir, int x,int y){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/Sprites/bullet.png")).getImage();
+        icon = new ImageIcon(getClass().getResource("/gamejava/Sprites/bullet.png")).getImage();
         iw = icon.getWidth(null);
         ih = icon.getHeight(null);
         // x e y passados direto como argumentos
@@ -72,7 +72,8 @@ public class Bullet {
     public boolean estáAtivo() { return estáAtivo; }
     // Verificamos se a bala está perto de um Invader
     public boolean acertouEm(Invader i){
-        int ox = i.getX(); int oy = i.getY();
+        int ox = i.getX(); 
+        int oy = i.getY();
         if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 10){
             estáAtivo = false;
             return true;

@@ -32,7 +32,7 @@ public class Bomb {
     
     public Bomb(Dimension a,int x,int y){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/Sprites/bomb.png")).getImage();
+        icon = new ImageIcon(getClass().getResource("/gamejava/Sprites/bomb.png")).getImage();
         iw = icon.getWidth(null);
         ih = icon.getHeight(null);
         // x e y passadas diretamente como parâmetros
