@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -40,6 +41,8 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
     private Bomb bomba;
     private int numBombas;
     private static final int NUM_BOMBAS_DISPONIVEL = 3;
+    
+    
 
     // Construtor, inicializa estruturas, registra interfaces, etc.
     public InvadersPanel(){
@@ -72,41 +75,93 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
         while(true){
             gameUpdate();
             repaint();
-            try { Thread.sleep(10); }
-            catch (InterruptedException e) { e.printStackTrace(); }
+            try { 
+                Thread.sleep(10); 
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace(); 
+            }
+        }
+    }
+    public void pauseGame(){
+        if(isPaused){
+            isPaused = false;
+        }
+        else{
+            isPaused = true;
+            int r1 = JOptionPane.showConfirmDialog(
+                    this,
+                    "Jogo pausado!",
+                    " ",
+                    JOptionPane.DEFAULT_OPTION);
+            if (r1 == JOptionPane.OK_OPTION){
+                isPaused = false;
+            }
+        }     
+    }
+    public void endGame(){
+        isPaused = true;
+        int r = JOptionPane.showConfirmDialog(
+                this, "Fim de Jogo",
+                " ",
+                JOptionPane.DEFAULT_OPTION);
+        if (r == JOptionPane.OK_OPTION){
+            System.exit(0);
         }
     }
     
      // Atualizamos os elementos do jogo.
     private synchronized void gameUpdate(){
-        if (!isPaused) {
+        if (!isPaused) { 
             // Movemos os sprites.
             for(Invader i:invasores) i.move();
             shooter.move(dir);
             for(Bullet b:tiros) b.move();
             if (bomba != null) bomba.move();
+            
             // Temos balas desativadas?
             Iterator<Bullet> it = tiros.iterator();
             while (it.hasNext()){
-                if (!(it.next()).estáAtivo()) it.remove(); 
+                if (!(it.next()).activate()) it.remove(); 
             }
+            
             // Temos invasores desativados?
             Iterator<Invader> ii = invasores.iterator();
             while (ii.hasNext()){
-                if (!(ii.next()).estáAtivo()) ii.remove(); 
+                if (!(ii.next()).activate()) ii.remove();
             }
+            
+            //Acaba o jogo se não houver mais invasores
+            Iterator<Invader> iii = invasores.iterator();
+            if (!(iii.hasNext())){
+                endGame();
+            }
+            //Desativa o shooter em caso de contato com um invader
+            if(shooter.activate())
+                for(Invader i:invasores)
+                    if(shooter.acertouEm(i)) shooter.deactivate();
+            
+            //Pausa o jogo quando o shooter está desativado (morto)
+            if(!shooter.activated)
+                    endGame();
+                                          
             // A bomba está desativada?
-            if (bomba != null) if (!bomba.estáAtivo()) bomba = null;
+            if (bomba != null) if (!bomba.activate()) bomba = null;
+            
             // Temos colisões com balas?
             for(Bullet b:tiros)
-            for(Invader i:invasores)
-            if (b.acertouEm(i)) i.desativa();
+                for(Invader i:invasores)
+                    if (b.acertouEm(i)) i.deactivate();
+            
             // Temos colisões com bombas?
             if (bomba != null)
-            for(Invader i:invasores)
-            if (bomba.acertouEm(i)){ 
-                tiros.addAll(bomba.explode()); i.desativa(); 
-            }
+                for(Invader i:invasores)
+                    if (bomba.acertouEm(i)){ 
+                        tiros.addAll(bomba.explode()); 
+                        i.deactivate(); 
+                    }
+            //E se matar todos os invaders?
+            
         }
     }
  
@@ -127,25 +182,35 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
     // Processamos teclas pressionadas durante o jogo.
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_P) isPaused = !isPaused;
+        if (keyCode == KeyEvent.VK_P) pauseGame();
         if (isPaused) return;
-        if (keyCode == KeyEvent.VK_LEFT) dir = Direction.LEFT;
-        else if (keyCode == KeyEvent.VK_RIGHT) dir = Direction.RIGHT;
-        else if (keyCode == KeyEvent.VK_UP) dir = Direction.UP;
-        else if (keyCode == KeyEvent.VK_DOWN) dir = Direction.DOWN;
-        else if (keyCode == KeyEvent.VK_SPACE){
-            if (tiros.size() < MAX_TIROS){
-                tiros.add(new Bullet(getPreferredSize(), Direction.UP, shooter.getX(),shooter.getY()-shooter.getHeight()/2));
-            }
-        }
-        else if (keyCode == KeyEvent.VK_B){
-            if (numBombas > 0){
-                if (bomba == null){
-                    bomba = new Bomb(getPreferredSize(),
-                    shooter.getX(),shooter.getY()-shooter.getHeight()/2);
-                    numBombas--;
-                }
-            }
+        switch (keyCode) {
+            case KeyEvent.VK_LEFT:
+                dir = Direction.LEFT;
+                break;
+            case KeyEvent.VK_RIGHT:
+                dir = Direction.RIGHT;
+                break;
+            case KeyEvent.VK_UP:
+                dir = Direction.UP;
+                break;
+            case KeyEvent.VK_DOWN:
+                dir = Direction.DOWN;
+                break;
+            case KeyEvent.VK_SPACE:
+                if (tiros.size() < MAX_TIROS){
+                    tiros.add(new Bullet(getPreferredSize(), Direction.UP, shooter.getX(),shooter.getY()-shooter.getHeight()/2));
+                }   break;
+            case KeyEvent.VK_B:
+                if (numBombas > 0){
+                    if (bomba == null){
+                        bomba = new Bomb(getPreferredSize(),
+                                shooter.getX(),shooter.getY()-shooter.getHeight()/2);
+                        numBombas--;
+                    }
+                }   break;
+            default:
+                break;
         }
     }
     // Estes mÃ©todos servem para satisfazer a interface KeyListener

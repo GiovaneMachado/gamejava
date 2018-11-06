@@ -16,7 +16,7 @@ public class Invader {
     // Posição e “velocidade” do UFO em pixels.
     private int x,y;
     private int dx,dy;
-    private boolean estáAtivo;
+    private boolean activated;
     // Tamanho do UFO em pixels.
     private int iw,ih;
     // Imagem do UFO.
@@ -38,12 +38,12 @@ public class Invader {
             dx = 3-(int)(Math.random()*6);
             dy = 2-(int)(Math.random()*4); 
         }
-        estáAtivo = true;
+        activated = true;
 
     }
     // Método que movimenta o UFO, verificando se está na área válida.
     public void move(){
-        if(estáAtivo){
+        if(activated){
             x += dx;
             y += dy;
            
@@ -62,17 +62,19 @@ public class Invader {
             
         }
     }
+    
+
 
     // Método que desenha o UFO em um contexto gráfico.
     public void draw(Graphics g){
-        if(estáAtivo) g.drawImage(icon,x-iw/2,y-ih/2,null);
+        g.drawImage(icon,x-iw/2,y-ih/2,null);
     }
     
-    public void desativa(){
-        estáAtivo = false;
+    public void deactivate(){
+        activated = false;
     }
-    public boolean estáAtivo(){ 
-        return estáAtivo; 
+    public boolean activate(){ 
+        return activated; 
     }
     public int getX(){ 
         return x; 

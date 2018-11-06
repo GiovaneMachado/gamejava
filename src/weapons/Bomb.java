@@ -18,11 +18,10 @@ import javax.swing.ImageIcon;
  */
 
 public class Bomb {
-    
     // Posição da bomba em pixels.
     private int x,y;
     // Esta bomba está ativa?
-    private boolean estáAtivo;
+    private boolean activated;
     // Tamanho da bomba em pixels.
     private int iw,ih;
     // Imagem da bomba.
@@ -39,44 +38,36 @@ public class Bomb {
         // x e y passadas diretamente como parâmetros
         this.x = x;
         this.y = y;
-        estáAtivo = true;
+        activated = true;
     }
     
-    // Método que movimenta o shooter, verificando se está na área válida.
+    // Método que movimenta a bomba, verificando se está na área válida.
     public void move(Direction dir){
         if (dir == null) return;
-        switch(dir){
-            case LEFT:
-                { x--; 
-                if (x < iw/2) x = iw/2; 
-                break; }
-            case RIGHT:
-                { x++; if (x > area.width-iw/2) x = area.width-iw/2; break; }
-            case UP:
-                { y--; if (y < area.height-100+ih/2) y = area.height-100+ih/2; break; }
-            case DOWN:
-                { y++; if (y > area.height-ih/2) y = area.height-ih/2; break; }
+        else{
+            y--; 
+            if (y < area.height-100+ih/2) y = area.height-100+ih/2;  
         }
     }
     // Método que movimenta a bomba.
     public void move(){
-        if (!estáAtivo) return;
+        if (!activated) return;
         y = y-3;
-        if (y <= 0) estáAtivo = false;
+        if (y <= 0) activated = false;
     }
     // Método que desenha a bomba em um contexto gráfico.
     public void draw(Graphics g){
-        if (estáAtivo) g.drawImage(icon,x-iw/2,y-ih/2,null);
+        if (activated) g.drawImage(icon,x-iw/2,y-ih/2,null);
     }
     // Precisamos saber se esta bomba está ativa!
-    public boolean estáAtivo() {
-        return estáAtivo; 
+    public boolean activate() {
+        return activated; 
     }
     // Verificamos se a bomba está perto de um Invader
     public boolean acertouEm(Invader i){
         int ox = i.getX(); 
         int oy = i.getY();
-        return (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 25);
+        return (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 80);
     }
 
     // Explodimos a bomba (retornando bullets).
@@ -86,7 +77,7 @@ public class Bomb {
         novasBalas.add(new Bullet(area, Direction.RIGHT, x, y));
         novasBalas.add(new Bullet(area, Direction.UP, x, y));
         novasBalas.add(new Bullet(area, Direction.DOWN, x, y));
-        estáAtivo = false;
+        activated = false;
         return novasBalas;
     }
 }
