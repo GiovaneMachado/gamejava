@@ -7,6 +7,7 @@ package ship;
 import spacejava.Direction;
 import java.awt.*;
 import javax.swing.ImageIcon;
+import weapons.Bullet;
 
 
 /**
@@ -28,9 +29,9 @@ public class Shooter {
      // Construtor, inicializa atributos e posiciona o shooter.
     public Shooter(Dimension a){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/sprites/nave.png")).getImage();
-        iw = (int) 100;
-        ih = (int) 88;
+        icon = new ImageIcon(getClass().getResource("/sprites/nave1.png")).getImage();
+        iw = (int) 50;
+        ih = (int) 44;
         // x e y iniciais centrados na área de movimentação. Define a posição inicial do Shooter
         x = (int)(iw/2+(a.width-iw)/2);
         y = (int)(a.height-100+ih/2);
@@ -80,12 +81,13 @@ public class Shooter {
         int ox = i.getX(); 
         int oy = i.getY();
         //Controla a hit box
-        if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 50){
+        if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 45){
             activated = false;
             return true;
         }
     else return false;
     } 
+  
     
     // Método que mata o shooter
     public void deactivate(){

@@ -30,7 +30,7 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
     private boolean isPaused = false;
     // Teremos alguns UFOs passeando na tela.
     private ArrayList<Invader> invasores;
-    private static final int NUM_INVASORES = 10;
+    private static final int NUM_INVASORES = 25;
     // O shooter e sua direção de movimento.
     private Shooter shooter;
     private Direction dir;
@@ -152,6 +152,7 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
             for(Bullet b:tiros)
                 for(Invader i:invasores)
                     if (b.acertouEm(i)) i.deactivate();
+           
             
             // Temos colisões com bombas?
             if (bomba != null)
@@ -160,7 +161,7 @@ public class InvadersPanel extends JPanel implements Runnable, KeyListener {
                         tiros.addAll(bomba.explode()); 
                         i.deactivate(); 
                     }
-            //E se matar todos os invaders?
+            
             
         }
     }

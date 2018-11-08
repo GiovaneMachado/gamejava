@@ -32,9 +32,9 @@ public class Bomb {
     
     public Bomb(Dimension a,int x,int y){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/sprites/bomb.png")).getImage();
-        iw = icon.getWidth(null);
-        ih = icon.getHeight(null);
+        icon = new ImageIcon(getClass().getResource("/sprites/bomb1.png")).getImage();
+        iw = icon.getWidth(null)/2;
+        ih = icon.getHeight(null)/2;
         // x e y passadas diretamente como parâmetros
         this.x = x;
         this.y = y;
@@ -67,7 +67,7 @@ public class Bomb {
     public boolean acertouEm(Invader i){
         int ox = i.getX(); 
         int oy = i.getY();
-        return (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 80);
+        return (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 40);
     }
 
     // Explodimos a bomba (retornando bullets).

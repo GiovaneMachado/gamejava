@@ -27,9 +27,9 @@ public class Invader {
     // Construtor, inicializa atributos e posiciona o UFO.
     public Invader(Dimension a){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/sprites/naveinimiga.png")).getImage();
-        iw = (int) 150;
-        ih = (int) 215;
+        icon = new ImageIcon(getClass().getResource("/sprites/naveinimiga1.png")).getImage();
+        iw = (int) 75;
+        ih = (int) 108;
         // x e y calculados usando a área do jogo.
         x = (int)(iw/2+Math.random()*(a.width-iw));
         y = (int)(ih/2+Math.random()*(a.height-100-ih));

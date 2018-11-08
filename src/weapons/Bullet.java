@@ -32,9 +32,9 @@ public class Bullet {
     // Construtor, inicializa atributos, cria a bala.
     public Bullet(Dimension a, Direction dir, int x,int y){
         area = a;
-        icon = new ImageIcon(getClass().getResource("/sprites/bullet.png")).getImage();
-        iw = (int) 30;
-        ih = (int) 50;
+        icon = new ImageIcon(getClass().getResource("/sprites/bullet1.png")).getImage();
+        iw = (int) 15;
+        ih = (int) 25;
         // x e y passados direto como argumentos
         this.x = x;
         this.y = y;
@@ -87,22 +87,27 @@ public class Bullet {
         int ox = i.getX(); 
         int oy = i.getY();
         //Controla a hit box
-        if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 50){
+        if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 25){
             activated = false;
             return true;
         }
     else return false;
     }
-    
-    // Verificamos se a bala está perto de um Shooter e desativa A BALA
+        // Verificamos se a bala está perto de um Invader e desativa A BALA
     public boolean acertouEm(Shooter s){
         int ox = s.getX(); 
         int oy = s.getY();
         //Controla a hit box
-        if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 50){
+        if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 25){
             activated = false;
             return true;
         }
     else return false;
+    }
+      public int getX(){ 
+        return x; 
+    }
+    public int getY(){
+        return y; 
     }
 }
