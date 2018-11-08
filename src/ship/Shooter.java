@@ -1,43 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ship;
+
+// Importações
 import spacejava.Direction;
 import java.awt.*;
 import javax.swing.ImageIcon;
-import weapons.Bullet;
 
-
-/**
- *
- * @author Giovane
- */
+// Atributos da classe Invader
 public class Shooter {   
-    // Método que define se o objeto está "vivo"
+    // Boolean que mostra se o Shooter existe ou não
     public boolean activated;
-    // Posição do defensor em pixels. horizontal/vertical
+    // Posição do Shooter em pixels. horizontal/vertical
     private int x,y;
-    // Tamanho do defensor em pixels. largura/altura
+    // Tamanho do Shooter em pixels. largura/altura
     private int iw,ih;
-    // Imagem do defensor.
+    // Imagem do Shooter.
     private Image icon;
-    // área do painel do jogo (para controlar movimento).
+    // Área do painel do jogo (para controlar movimento).
     private Dimension area;
     
-     // Construtor, inicializa atributos e posiciona o shooter.
+    // Métodos
+    // Construtor, inicializa atributos e posiciona o shooter.
     public Shooter(Dimension a){
+        // Área recebida como parâmetro
         area = a;
+        //Ícone pego na pasta do projeto
         icon = new ImageIcon(getClass().getResource("/sprites/nave1.png")).getImage();
+        // Tamanho
         iw = (int) 50;
         ih = (int) 44;
-        // x e y iniciais centrados na área de movimentação. Define a posição inicial do Shooter
+        // Posição calculada usando a área do jogo e random().
         x = (int)(iw/2+(a.width-iw)/2);
         y = (int)(a.height-100+ih/2);
+        // Faz o Shooter existir quando criado
         activated = true;
     }
-    
+   
     // Método que movimenta o shooter, verificando se está na área válida (pro shooter)
     public void move(Direction dir){
         if(activated){
@@ -67,7 +64,7 @@ public class Shooter {
                         if (y > area.height-ih/2) y = area.height-ih/2; 
                         break; 
                     }
-                }
+            }
         }
     }
     
@@ -76,11 +73,10 @@ public class Shooter {
         if(activated) g.drawImage(icon,x-iw/2,y-ih/2, null);
     }
     
-    // Verificamos se a bala está perto de um Invader e desativa A BALA
+    // Verificamos se o Shooter bateu em um Invader e desativa o Shooter
     public boolean acertouEm(Invader i){
         int ox = i.getX(); 
         int oy = i.getY();
-        //Controla a hit box
         if (Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy)) < 45){
             activated = false;
             return true;
@@ -88,7 +84,6 @@ public class Shooter {
     else return false;
     } 
   
-    
     // Método que mata o shooter
     public void deactivate(){
         activated = false;
@@ -100,18 +95,23 @@ public class Shooter {
         return activated; 
     }
     
+    // Retorna sua posição x
     public int getX(){ 
         return x; 
-    }
+    } 
+    
+    // Retorna sua posição y
     public int getY(){
         return y; 
     }
+    
+    // Retorna a largura
     public int getWidth(){
         return iw; 
     }
+    
+    // Retorna a altura
     public int getHeight(){ 
         return ih; 
-    }
-
-   
+    } 
 }

@@ -1,47 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ship;
 
+// Importações
 import java.awt.*;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author Giovane
- */
+// Atributos da classe Invader
 public class Invader {
-    // Posição e “velocidade” do UFO em pixels.
+    // Boolean que mostra se o Invader existe ou não
+    private boolean activated;
+    // Posição e “velocidade” do Invader em pixels.
     private int x,y;
     private int dx,dy;
-    private boolean activated;
-    // Tamanho do UFO em pixels.
+    // Tamanho do Invader em pixels.
     private int iw,ih;
-    // Imagem do UFO.
+    // Imagem do Invader.
     private Image icon;
-    // área do painel do jogo (para controlar movimento).
+    // Área do painel do jogo (para controlar movimento).
     private Dimension area;   
     
-    // Construtor, inicializa atributos e posiciona o UFO.
+    //Métodos
+    // Construtor, inicializa atributos e posiciona o Invader.
     public Invader(Dimension a){
+        // Área recebida como parâmetro
         area = a;
+        // Ícone sendo pego dentro da pasta do projeto
         icon = new ImageIcon(getClass().getResource("/sprites/naveinimiga1.png")).getImage();
+        // Tamanho
         iw = (int) 75;
         ih = (int) 108;
-        // x e y calculados usando a área do jogo.
+        // Posição calculada usando a área do jogo e random().
         x = (int)(iw/2+Math.random()*(a.width-iw));
         y = (int)(ih/2+Math.random()*(a.height-100-ih));
-        // dx e dy aleatórios velocidade
+        // Velocidade calculada aleatoriamente.
         while(dx == 0 || dy == 0){
             dx = 3-(int)(Math.random()*6);
             dy = 2-(int)(Math.random()*4); 
         }
+        // Faz o Invader existir quando criado
         activated = true;
 
     }
-    // Método que movimenta o UFO, verificando se está na área válida.
+    // Método que movimenta o Invader, verificando se está na área válida.
     public void move(){
         if(activated){
             x += dx;
@@ -63,22 +62,27 @@ public class Invader {
         }
     }
     
-
-
-    // Método que desenha o UFO em um contexto gráfico.
+    // Método que desenha o Invader em um contexto gráfico.
     public void draw(Graphics g){
         g.drawImage(icon,x-iw/2,y-ih/2,null);
     }
     
+    // Desativa o Invader
     public void deactivate(){
         activated = false;
     }
+    
+    // Ativa o Invader
     public boolean activate(){ 
         return activated; 
     }
+    
+    // Retorna sua posição x
     public int getX(){ 
         return x; 
     }
+    
+    // Retorna sua posição y
     public int getY(){ 
         return y; 
     }
